@@ -14,25 +14,54 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
+env:
+  # Your custom domain
+  CUSTOM_DOMAIN: cesarfrancis.xyz
+  # If your Vite base was previously set to this repo subpath, we’ll strip it from HTML
+  OLD_REPO_BASE: /lab-portfolio/
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: lab-portfolio    # your nested app folder
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: "npm"
           cache-dependency-path: lab-portfolio/package-lock.json
-      - run: npm ci
-      - run: npm run build
-      - run: |
-          touch dist/.nojekyll
-          cp dist/index.html dist/404.html
-      - uses: actions/upload-pages-artifact@v3
+
+      - name: Install deps
+        working-directory: lab-portfolio
+        run: npm ci
+
+      - name: Build
+        working-directory: lab-portfolio
+        run: npm run build
+
+      # --- SAFETY NET ---
+      # If dist/index.html still references a subpath like /lab-portfolio/,
+      # normalize all HTML to root-based assets so a custom domain works.
+      - name: Normalize asset base to root
+        run: |
+          if grep -q "${OLD_REPO_BASE}" lab-portfolio/dist/index.html; then
+            echo "Found ${OLD_REPO_BASE} in HTML. Normalizing to root '/'."
+            find lab-portfolio/dist -type f -name "*.html" -print0 | xargs -0 sed -i "s|${OLD_REPO_BASE}|/|g"
+          else
+            echo "No old repo base found. Skipping normalization."
+          fi
+
+      - name: Add CNAME, 404.html, and .nojekyll
+        run: |
+          echo "${CUSTOM_DOMAIN}" > lab-portfolio/dist/CNAME
+          cp lab-portfolio/dist/index.html lab-portfolio/dist/404.html
+          touch lab-portfolio/dist/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: lab-portfolio/dist
 
@@ -45,4 +74,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-
