@@ -11,27 +11,27 @@
 export const projects: Project[] = [
   {
     id: 'specimen-01',
-    title: 'ElectroSim',
+    title: 'Empty Spot 1',
     year: '2025',
-    tags: ['React', 'Three.js', 'Physics'],
-    description: 'Interactive field-line visualizer for E&M (P1101). Drag charges, see field vectors and equipotential surfaces in real-time.',
-    repo: 'https://github.com/yourusername/electrosim',
-    demo: 'https://yourdemo.com/electrosim'
+    tags: ['', '', ''],
+    description: '',
+    repo: '',
+    demo: ''
   },
   {
     id: 'specimen-02',
-    title: 'Real Analysis Toolkit',
+    title: 'Empty Spot 2',
     year: '2025',
-    tags: ['TypeScript', 'Algorithms'],
-    description: 'Interactive proofs and examples for bounds, sup/inf, and floor function properties with step-by-step hints.',
-    repo: 'https://github.com/yourusername/real-analysis-toolkit'
+    tags: ['', ''],
+    description: '',
+    repo: ''
   },
   {
     id: 'specimen-03',
-    title: 'Lebanon Bus Tracker',
-    year: '2024',
-    tags: ['React', 'Maps', 'APIs'],
-    description: 'Minimal transit dashboard with keyboard nav and offline mode.'
+    title: 'Empty Spot 3',
+    year: '2025',
+    tags: ['', '', ''],
+    description: ''
   }
 ]
 

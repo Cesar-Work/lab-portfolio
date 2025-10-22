@@ -28,7 +28,7 @@ export default function CommandConsole({ open, onClose }: { open: boolean; onClo
     if (c === 'help') setLines(prev => [...prev, HELP])
     else if (c === 'about') nav('/about')
     else if (c === 'projects') nav('/projects')
-    else if (c === 'contact') setLines(prev => [...prev, 'Email: cesar@example.com'])
+    else if (c === 'contact') setLines(prev => [...prev, 'Email: cesarfrancis.work@gmail.com'])
     else if (c === 'clear') setLines(["> Interactive console ready. Type 'help'."])  // ASCII-only
     else setLines(prev => [...prev, `Command not found: ${c}`])
   }
